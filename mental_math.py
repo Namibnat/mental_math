@@ -19,8 +19,9 @@ RAISE_DIVISION = 2
 MAX_DIVISION = 300
 ROUNDS = 100
 
+
 class QuizRecord:
-    def  __init__(self):
+    def __init__(self):
         self.filename = "/home/vernon/.mental_math/record.json"
         try:
             record_fp = open(self.filename, 'r')
@@ -34,9 +35,11 @@ class QuizRecord:
         json.dump(self.record, record_fp)
         record_fp.close()
 
+
 def get_date():
     today = datetime.datetime.now()
     return "{}.{}.{}".format(today.day, today.month, today.year)
+
 
 def runall():
     today_results = {}
@@ -54,27 +57,27 @@ def runall():
         last_multiplication = last_results['*']
         last_division = last_results['/']
         if (last_addition['wrong'] == 0 and
-            last_addition['it_took'] < MAX_ADDITION):
+                last_addition['it_took'] < MAX_ADDITION):
             biggest_addition = last_addition['biggest'] + RAISE_ADDITION
             print(f"Biggest addition raised to {biggest_addition}")
         else:
             biggest_addition = last_addition['biggest']
         if (last_subtraction['wrong'] == 0 and
-            last_subtraction['it_took'] < MAX_SUBTRACTION):
+                last_subtraction['it_took'] < MAX_SUBTRACTION):
             biggest_subtraction = (last_subtraction['biggest'] +
                                    RAISE_SUBTRACTION)
             print(f"Biggest subtraction raised to {biggest_subtraction}")
         else:
             biggest_subtraction = last_subtraction['biggest']
         if (last_multiplication['wrong'] == 0 and
-            last_multiplication['it_took'] < MAX_MULTIPLICATION):
+                last_multiplication['it_took'] < MAX_MULTIPLICATION):
             biggest_multiplication = (last_multiplication['biggest'] +
                                       RAISE_MULTIPLICATION)
             print(f"Biggest multiplication raised to {biggest_multiplication}")
         else:
             biggest_multiplication = last_multiplication['biggest']
         if (last_division['wrong'] == 0 and
-            last_division['it_took'] < MAX_DIVISION):
+                last_division['it_took'] < MAX_DIVISION):
             biggest_division = last_division['biggest'] + RAISE_DIVISION
             print(f"Biggest division raised to {biggest_division}")
         else:
@@ -110,7 +113,7 @@ def do_addition(biggest_addition):
                 print("The value you entered didn't work, try again")
     end = timer()
     it_took = round(end - start)
-    minutes, seconds = [it_took//60, it_took%60]
+    minutes, seconds = [it_took // 60, it_took % 60]
     print("{} wrong and it took {} minutes and {} seconds".format(
         wrong,
         minutes,
@@ -122,6 +125,7 @@ def do_addition(biggest_addition):
         'wrong': wrong,
         'it_took': it_took,
     }
+
 
 def do_subtraction(biggest_subtraction):
     """
@@ -147,7 +151,7 @@ def do_subtraction(biggest_subtraction):
                 print("The value you entered wasn't a number, try again")
     end = timer()
     it_took = round(end - start)
-    minutes, seconds = [it_took//60, it_took%60]
+    minutes, seconds = [it_took // 60, it_took % 60]
     print("{} wrong and it took {} minutes and {} seconds".format(
         wrong,
         minutes,
@@ -159,6 +163,7 @@ def do_subtraction(biggest_subtraction):
         'wrong': wrong,
         'it_took': it_took,
     }
+
 
 def do_multiplication(biggest_multiplication):
     """
@@ -183,7 +188,7 @@ def do_multiplication(biggest_multiplication):
                 print("The value you typed wasn't a proper answer, try again")
     end = timer()
     it_took = round(end - start)
-    minutes, seconds = [it_took//60, it_took%60]
+    minutes, seconds = [it_took // 60, it_took % 60]
     print("{} wrong and it took {} minutes and {} seconds".format(
         wrong,
         minutes,
@@ -195,6 +200,7 @@ def do_multiplication(biggest_multiplication):
         'wrong': wrong,
         'it_took': it_took,
     }
+
 
 def do_division(biggest_division):
     """
@@ -217,17 +223,18 @@ def do_division(biggest_division):
                     floor = answer
                     remainder = '0'
                 if (int(floor.strip()) == a // b and
-                    int(remainder.strip()) == a % b):
+                        int(remainder.strip()) == a % b):
                     print("Good")
                 else:
-                    print("wrong, should be {} remainder {}".format(a // b, a % b))
+                    print("wrong, should be {} remainder {}".format(a // b,
+                                                                    a % b))
                     wrong += 1
                 break
             except ValueError:
                 print("Your input wasn't a a correct answer, try again")
     end = timer()
     it_took = round(end - start)
-    minutes, seconds = [it_took//60, it_took%60]
+    minutes, seconds = [it_took // 60, it_took % 60]
     print("{} wrong and it took {} minutes and {} seconds".format(
         wrong,
         minutes,
