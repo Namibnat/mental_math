@@ -319,7 +319,7 @@ def do_hex(biggest_hex):
                 flip = random.randint(0, 1)
                 # decimal to hex
                 if flip:
-                    answer = input("{} in binary, to hex: ".format(a))
+                    answer = input("{} in decimal, to hex: ".format(a))
                     if answer == hex(a)[2:]:
                         print("Good")
                     else:
@@ -327,7 +327,7 @@ def do_hex(biggest_hex):
                         wrong += 1
                     break
                 else:
-                    answer = input("{} in hex, to binary: ".format(hex(a)[2:]))
+                    answer = input("{} in hex, to decimal: ".format(hex(a)[2:]))
                     if answer == str(a):
                         print("Good")
                     else:
