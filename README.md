@@ -13,14 +13,19 @@ at random.
 You can run these as follows
 
 This gives you a highest value of 30 for the addition problems
+
+```python
 >>> import mental_math as mm
 >>> mm.do_addition(30)
+```
 
 If you want to do them all, in a row, you can run
 runall() (which will run if you just run the whole module).
 
+```python
 >>> import mental_math as mm
 >>> mm.runall()
+```
 
 runall will do each of them in a row, and log your results.
 
