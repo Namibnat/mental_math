@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 """
-A program to practice simple mental arithmetic
+Mental workout routine
+
+A simple routine to run
+through a few different mental
+challenges, mostly math and chemistry
 """
 
 import random
