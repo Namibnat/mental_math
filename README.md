@@ -3,7 +3,7 @@
 Just a small hacked together routine, with the aim
 of having a small program to practice mental math.
 
-There are routines to do addition, subtraction, mulitplication
+There are routines to do addition, subtraction, multiplication
 and division, decimal/hex conversion, binary/decimal conversions,
 element/symbol conversions, and 2 powers.
 
@@ -29,5 +29,8 @@ do any one of the routines within a maximum time and without
 error, the next time it will increase the amount.
 
 TODO:
-    The logging needs some work - if you create a new routine
+    1. The logging needs some work - if you create a new routine
     at the moment, the logging fails.
+    2. Write tests - do this before refactoring
+    3. Refactor, putting all the tests in a class and eliminating
+    repetition.
