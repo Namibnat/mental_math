@@ -4,15 +4,15 @@ Just a small hacked together routine, with the aim
 of having a small program to practice mental math.
 
 There are routines to do addition, subtraction, mulitplication
-and division.  For each of these routines you give the highest value
-that you want to have in your calculations, and it gives
-you 100 problems in a row to solve.
+and division, decimal/hex conversion, binary/decimal conversions,
+element/symbol conversions, and 2 powers.
 
-These routines are called do_addition(), do_subtraction(),
-do_multiplication() and do_division().
+Each routine gives you 100 problems to solve, generated
+at random.
 
 You can run these as follows
 
+This gives you a highest value of 30 for the addition problems
 >>> import mental_math as mm
 >>> mm.do_addition(30)
 
@@ -27,3 +27,7 @@ runall will do each of them in a row, and log your results.
 Each time you play it, it looks at your logged results.  If you
 do any one of the routines within a maximum time and without
 error, the next time it will increase the amount.
+
+TODO:
+    The logging needs some work - if you create a new routine
+    at the moment, the logging fails.
