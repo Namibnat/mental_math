@@ -16,29 +16,24 @@ import csv
 import datetime
 from pathlib import Path
 
-RAISE_ADDITION = 3
+RECORD_FILE = f"{Path.home()}/.mental_math/record.json"
+
+RAISE = 1
 MAX_ADDITION = 240
-RAISE_SUBTRACTION = 2
 MAX_SUBTRACTION = 240
-# remember that raising multiplication one is a whole times table
-RAISE_MULTIPLICATION = 1
 MAX_MULTIPLICATION = 240
-RAISE_DIVISION = 2
 MAX_DIVISION = 240
-RAISE_HEX = 1
 MAX_HEX = 240
-RAISE_BINARY = 1
 MAX_BINARY = 240
-RAISE_PERIODIC_TABLE = 1
 MAX_PERIODIC_TABLE = 240
-RAISE_2TH_POWER = 1
 MAX_2TH_POWER = 240
+MAX_16TH_POWER = 240
 ROUNDS = 100
 
 
 class QuizRecord:
     def __init__(self):
-        self.filename = f"{Path.home()}/.mental_math/record.json"
+        self.filename = RECORD_FILE
         try:
             record_fp = open(self.filename, 'r')
             self.record = json.load(record_fp)
@@ -57,6 +52,26 @@ def get_date():
     return "{}.{}.{}".format(today.day, today.month, today.year)
 
 
+def biggest_helper(last, max, item):
+    if (last['wrong'] == 0 and last['it_took'] < max):
+        biggest = last['biggest'] + RAISE
+        print(f"Biggest {item} raised to {biggest}")
+    else:
+        biggest = last['biggest']
+    return biggest
+
+
+def last_helper(last_results, item, biggest):
+    try:
+        last = last_results[item]
+    except KeyError:
+        last = {}
+        last['wrong'] = 1
+        last['it_took'] = MAX_16TH_POWER
+        last['biggest'] = biggest
+    return last
+
+
 def runall():
     today_results = {}
     quiz_record = QuizRecord()
@@ -70,73 +85,34 @@ def runall():
         biggest_binary = 3
         biggest_periodic_table = 3
         biggest_2th_power = 4
+        biggest_16th_power = 2
     else:
         last_results = record[-1]['results']
-        last_addition = last_results['+']
-        last_subtraction = last_results['-']
-        last_multiplication = last_results['*']
-        last_division = last_results['/']
-        last_hex = last_results['x']
-        last_binary = last_results['b']
-        last_periodic_table = last_results['p']
-        try:
-            last_2th_power = last_results['2']
-        except KeyError:
-            biggest_2th_power = 4
-            last_2th_power = {}
-            last_2th_power['wrong'] = 1
-            last_2th_power['it_took'] = MAX_2TH_POWER
-            last_2th_power['biggest'] = biggest_2th_power
-        if (last_addition['wrong'] == 0 and
-                last_addition['it_took'] < MAX_ADDITION):
-            biggest_addition = last_addition['biggest'] + RAISE_ADDITION
-            print(f"Biggest addition raised to {biggest_addition}")
-        else:
-            biggest_addition = last_addition['biggest']
-        if (last_subtraction['wrong'] == 0 and
-                last_subtraction['it_took'] < MAX_SUBTRACTION):
-            biggest_subtraction = (last_subtraction['biggest'] +
-                                   RAISE_SUBTRACTION)
-            print(f"Biggest subtraction raised to {biggest_subtraction}")
-        else:
-            biggest_subtraction = last_subtraction['biggest']
-        if (last_multiplication['wrong'] == 0 and
-                last_multiplication['it_took'] < MAX_MULTIPLICATION):
-            biggest_multiplication = (last_multiplication['biggest'] +
-                                      RAISE_MULTIPLICATION)
-            print(f"Biggest multiplication raised to {biggest_multiplication}")
-        else:
-            biggest_multiplication = last_multiplication['biggest']
-        if (last_division['wrong'] == 0 and
-                last_division['it_took'] < MAX_DIVISION):
-            biggest_division = last_division['biggest'] + RAISE_DIVISION
-            print(f"Biggest division raised to {biggest_division}")
-        else:
-            biggest_division = last_division['biggest']
-        if (last_hex['wrong'] == 0 and
-                last_hex['it_took'] < MAX_HEX):
-            biggest_hex = last_hex['biggest'] + RAISE_HEX
-            print(f"Biggest hex raised to {biggest_hex}")
-        else:
-            biggest_hex = last_hex['biggest']
-        if (last_binary['wrong'] == 0 and
-                last_binary['it_took'] < MAX_BINARY):
-            biggest_binary = last_binary['biggest'] + RAISE_BINARY
-            print(f"Biggest binary raised to {biggest_binary}")
-        else:
-            biggest_binary = last_binary['biggest']
-        if (last_periodic_table['wrong'] == 0 and
-                last_periodic_table['it_took'] < MAX_PERIODIC_TABLE):
-            biggest_periodic_table = last_periodic_table['biggest'] + RAISE_PERIODIC_TABLE
-            print(f"Biggest periodic table raised to {biggest_periodic_table}")
-        else:
-            biggest_periodic_table = last_periodic_table['biggest']
-        if (last_2th_power['wrong'] == 0 and
-                last_2th_power['it_took'] < MAX_2TH_POWER):
-            biggest_2th_power = last_2th_power['biggest'] + RAISE_2TH_POWER
-            print(f"Biggest 2th power raised to {biggest_2th_power}")
-        else:
-            biggest_2th_power = last_2th_power['biggest']
+        last_addition = last_helper(last_results, '+', 10)
+        last_subtraction = last_helper(last_results, '-', 9)
+        last_multiplication = last_helper(last_results, '*', 8)
+        last_division = last_helper(last_results, '/', 7)
+        last_hex = last_helper(last_results, 'x', 11)
+        last_binary = last_helper(last_results, 'b', 3)
+        last_periodic_table = last_helper(last_results, 'p', 3)
+        last_2th_power = last_helper(last_results, '2', 4)
+        last_16th_power = last_helper(last_results, '16', 2)
+
+        biggest_addition = biggest_helper(last_addition, MAX_ADDITION, 'addition')
+        biggest_subtraction = biggest_helper(last_subtraction,
+                                             MAX_SUBTRACTION, 'subtraction')
+        biggest_multiplication = biggest_helper(last_multiplication,
+                                                MAX_MULTIPLICATION, 'multiplication')
+        biggest_division = biggest_helper(last_division, MAX_DIVISION, 'division')
+        biggest_hex = biggest_helper(last_hex, MAX_HEX, 'hex')
+        biggest_binary = biggest_helper(last_binary, MAX_BINARY, 'binary')
+        biggest_periodic_table = biggest_helper(last_periodic_table,
+                                                MAX_PERIODIC_TABLE,
+                                                'periodic table')
+        biggest_2th_power = biggest_helper(last_2th_power,
+                                           MAX_2TH_POWER, '2nd power')
+        biggest_16th_power = biggest_helper(last_16th_power,
+                                            MAX_16TH_POWER, '16th power')
 
     today_results['+'] = (do_addition(biggest_addition))
     today_results['-'] = (do_subtraction(biggest_subtraction))
@@ -146,6 +122,7 @@ def runall():
     today_results['b'] = (do_binary(biggest_binary))
     today_results['p'] = (do_periodic_table(biggest_periodic_table))
     today_results['2'] = (do_2th_power(biggest_2th_power))
+    today_results['16'] = (do_16th_power(biggest_16th_power))
     to_record = {'date': get_date(), 'results': today_results}
     record.append(to_record)
     quiz_record.write_record()
@@ -459,7 +436,7 @@ def do_periodic_table(biggest_periodic_table):
 def do_2th_power(biggest_2th_power):
     wrong = 0
     nums = [random.randint(0, biggest_2th_power) for n in range(ROUNDS)]
-    input("Press enter to start binary: ")
+    input("Press enter to start 2-powers: ")
     start = timer()
     while nums:
         try:
@@ -483,6 +460,38 @@ def do_2th_power(biggest_2th_power):
     )
     return {
         'biggest': biggest_2th_power,
+        'wrong': wrong,
+        'it_took': it_took,
+    }
+
+
+def do_16th_power(biggest_16th_power):
+    wrong = 0
+    nums = [random.randint(0, biggest_16th_power) for n in range(ROUNDS)]
+    input("Press enter to start 16-powers: ")
+    start = timer()
+    while nums:
+        try:
+            a = nums.pop()
+            answer = input("16^{}: ".format(a))
+            if answer == str(16**a):
+                print("Good")
+            else:
+                print("Wrong, should be {}".format(16**a))
+                wrong += 1
+        except ValueError:
+            print("The value you entered didn't work, try again")
+    end = timer()
+    it_took = round(end - start)
+    minutes, seconds = [it_took // 60, it_took % 60]
+    print("{} wrong and it took {} minutes and {} seconds".format(
+        wrong,
+        minutes,
+        seconds,
+        )
+    )
+    return {
+        'biggest': biggest_16th_power,
         'wrong': wrong,
         'it_took': it_took,
     }
