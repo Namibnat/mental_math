@@ -34,8 +34,6 @@ do any one of the routines within a maximum time and without
 error, the next time it will increase the amount.
 
 TODO:
-    1. The logging needs some work - if you create a new routine
-    at the moment, the logging fails.
-    2. Write tests - do this before refactoring
-    3. Refactor, putting all the tests in a class and eliminating
-    repetition.
+
+1. Write tests - do this before refactoring
+2. Refactor, make it more 'DRY'

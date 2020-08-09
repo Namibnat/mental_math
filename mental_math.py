@@ -32,6 +32,7 @@ ROUNDS = 100
 
 
 class QuizRecord:
+    """Keep score"""
     def __init__(self):
         self.filename = RECORD_FILE
         try:
@@ -48,11 +49,13 @@ class QuizRecord:
 
 
 def get_date():
+    """Returns date in the form dd.mm.yyyy"""
     today = datetime.datetime.now()
     return "{}.{}.{}".format(today.day, today.month, today.year)
 
 
 def biggest_helper(last, max, item):
+    """Set the biggest value for the problem set"""
     if (last['wrong'] == 0 and last['it_took'] < max):
         biggest = last['biggest'] + RAISE
         print(f"Biggest {item} raised to {biggest}")
@@ -62,6 +65,11 @@ def biggest_helper(last, max, item):
 
 
 def last_helper(last_results, item, biggest):
+    """Determine the last values
+
+    If there was no last value for this entry,
+    it gets created
+    """
     try:
         last = last_results[item]
     except KeyError:
@@ -73,6 +81,7 @@ def last_helper(last_results, item, biggest):
 
 
 def runall():
+    """Sets all the needed parameters, then runs all the quizes"""
     today_results = {}
     quiz_record = QuizRecord()
     record = quiz_record.record
@@ -232,9 +241,10 @@ def do_multiplication(biggest_multiplication):
         seconds,
         )
     )
-    print("\nMistakes:")
-    for problem in wrong_record:
-        print(problem)
+    if wrong_record:
+        print("\nMistakes:")
+        for problem in wrong_record:
+            print(problem)
     return {
         'biggest': biggest_multiplication,
         'wrong': wrong,
